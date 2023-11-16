@@ -1,0 +1,67 @@
+﻿@model TallerMVC.Models.ViewModels.NuevoCliente
+@{
+    ViewBag.Title = "Nuevo Cliente";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using(Html.BeginForm("Nuevo_Cliente", "Clientes", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div>
+                @Html.LabelFor(d => d.nombre)
+                @Html.TextBoxFor(d => d.nombre, "", new { @class = "form-control" })
+                @Html.ValidationMessageFor(d => d.nombre, null, new { @class = "red" })
+            </div>
+
+            <div>
+                @Html.LabelFor(d => d.apellidoPaterno)
+                @Html.TextBoxFor(d => d.apellidoPaterno, "", new { @class = "form-control" })
+                @Html.ValidationMessageFor(d => d.apellidoPaterno, null, new { @class = "red" })
+            </div>
+
+            <div>
+                @Html.LabelFor(d => d.apellidoMaterno)
+                @Html.TextBoxFor(d => d.apellidoMaterno, "", new { @class = "form-control" })
+                @Html.ValidationMessageFor(d => d.apellidoMaterno, null, new { @class = "red" })
+            </div>
+
+            <div>
+                @Html.LabelFor(d => d.edad)
+                @Html.TextBoxFor(d => d.edad, "", new { @class = "form-control" })
+                @Html.ValidationMessageFor(d => d.edad, null, new { @class = "red" })
+            </div>
+
+            <div>
+                @Html.LabelFor(d => d.sexo)
+                @Html.TextBoxFor(d => d.sexo, "", new { @class = "form-control" })
+                @Html.ValidationMessageFor(d => d.sexo, null, new { @class = "red" })
+            </div>
+
+            <div>
+                @Html.LabelFor(d => d.direccion)
+                @Html.TextBoxFor(d => d.direccion, "", new { @class = "form-control" })
+                @Html.ValidationMessageFor(d => d.direccion, null, new { @class = "red" })
+            </div>
+
+            <div>
+                @Html.LabelFor(d => d.telefono)
+                @Html.TextBoxFor(d => d.telefono, "", new { @class = "form-control" })
+                @Html.ValidationMessageFor(d => d.telefono, null, new { @class = "red" })
+            </div>
+
+            <div>
+                @Html.LabelFor(d => d.correo)
+                @Html.TextBoxFor(d => d.correo, "", new { @class = "form-control" })
+                @Html.ValidationMessageFor(d => d.correo, null, new { @class = "red" })
+            </div>
+
+            <div class="col-lg-4" style="text-align:right;">
+                <div>
+                    <input value="Guardar" class="btn btn-outline-success" type="submit" />
+                </div>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,39 @@
+﻿@model TallerMVC.Models.ViewModels.NuevoEstadoAuto
+@{
+    ViewBag.Title = "Nuevo Estado de un Coche";
+}
+
+<h2>@ViewBag.Title</h2>
+@using (Html.BeginForm("Nuevo_EstadoAuto", "EstadoAuto", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div>
+                @Html.LabelFor(d => d.condicion)
+                @Html.TextBoxFor(d => d.condicion, "", new { @class = "form-control" })
+                @Html.ValidationMessageFor(d => d.condicion, null, new { @class = "red" })
+            </div>
+
+            <div>
+                @Html.LabelFor(d => d.inventario)
+                @Html.TextBoxFor(d => d.inventario, "", new { @class = "form-control" })
+                @Html.ValidationMessageFor(d => d.inventario, null, new { @class = "red" })
+            </div>
+
+            <div>
+                @Html.LabelFor(d => d.FechaEdo)
+                @Html.TextBoxFor(d => d.FechaEdo, "", new { @class = "form-control" })
+                @Html.ValidationMessageFor(d => d.FechaEdo, null, new { @class = "red" })
+            </div>
+
+            <div>
+                @Html.LabelFor(d => d.cocheId)
+                @Html.DropDownListFor(d => d.cocheId, new SelectList(ViewBag.ListaCoches, "idCoche", "nombre"), new { @class = "form-control" })
+            </div>
+
+            <div class="col-lg-4" style="text-align:right;">
+                <input value="Guardar" class="btn btn-outline-success" type="submit" />
+            </div>
+        </div>
+    </div>
+}

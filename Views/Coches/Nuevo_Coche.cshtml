@@ -1,0 +1,53 @@
+﻿@model TallerMVC.Models.ViewModels.NuevoCoche
+@{
+    ViewBag.Title = "Nuevo_Coche";
+}
+
+<h2>ViewBag.Title</h2>
+@using (Html.BeginForm("Nuevo_Coche", "Coches", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div>
+                @Html.LabelFor(d => d.placa)
+                @Html.TextBoxFor(d => d.placa, "", new { @class = "form-control" })
+                @Html.ValidationMessageFor(d => d.placa, null, new { @class = "red" })
+            </div>
+
+            <div>
+                @Html.LabelFor(d => d.marca)
+                @Html.TextBoxFor(d => d.marca, "", new { @class = "form-control" })
+                @Html.ValidationMessageFor(d => d.marca, null, new { @class = "red" })
+            </div>
+
+            <div>
+                @Html.LabelFor(d => d.modelo)
+                @Html.TextBoxFor(d => d.modelo, "", new { @class = "form-control" })
+                @Html.ValidationMessageFor(d => d.modelo, null, new { @class = "red" })
+            </div>
+
+            <div>
+                @Html.LabelFor(d => d.anio)
+                @Html.TextBoxFor(d => d.anio, "", new { @class = "form-control" })
+                @Html.ValidationMessageFor(d => d.anio, null, new { @class = "red" })
+            </div>
+
+            <div>
+                @Html.LabelFor(d => d.color)
+                @Html.TextBoxFor(d => d.color, "", new { @class = "form-control" })
+                @Html.ValidationMessageFor(d => d.color, null, new { @class = "red" })
+            </div>
+
+            <div>
+                @Html.LabelFor(d => d.clienteid)
+                @Html.DropDownListFor(d => d.clienteid, new SelectList(ViewBag.ListaClientes, "idCliente", "nombre"), new { @class = "form-control" })
+            </div>
+
+            <div class="col-lg-4" style="text-align:right;">
+                <div style="text-align:right;">
+                    <input value="Guardar" class="btn btn-outline-success" type="submit" />
+                </div>
+            </div>
+        </div>
+    </div>
+}

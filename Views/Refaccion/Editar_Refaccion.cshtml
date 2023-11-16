@@ -1,0 +1,34 @@
+﻿@model TallerMVC.Models.Refaccion
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Editar_Refaccion", "Refaccion", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-md-12">
+
+            @Html.HiddenFor(d => d.idRefaccion)
+            <div>
+                @Html.LabelFor(d => d.tipo)
+                @Html.TextBoxFor(d => d.tipo, "", new { @class = "form-control" })
+                @Html.ValidationMessageFor(d => d.tipo, null, new { @class = "red" })
+            </div>
+
+            <div>
+                @Html.LabelFor(d => d.precio)
+                @Html.TextBoxFor(d => d.precio, "", new { @class = "form-control" })
+                @Html.ValidationMessageFor(d => d.precio, null, new { @class = "red" })
+            </div>
+
+            <div>
+                @Html.LabelFor(d => d.servicioId)
+                @Html.TextBoxFor(d => d.servicioId, "", new { @class = "form-control" })
+                @Html.ValidationMessageFor(d => d.servicioId, null, new { @class = "red" })
+            </div>
+
+            <div class="col-lg-4" style="text-align:right;">
+                <input value="Guardar" class="btn btn-outline-success" type="submit" />
+            </div>
+        </div>
+    </div>
+}

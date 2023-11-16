@@ -1,0 +1,464 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TallerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'Taller.dbo.AutoServicio' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="AutoServicio">
+          <Key>
+            <PropertyRef Name="servicioId" />
+            <PropertyRef Name="cocheId" />
+          </Key>
+          <Property Name="servicioId" Type="int" Nullable="false" />
+          <Property Name="cocheId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Cliente">
+          <Key>
+            <PropertyRef Name="idCliente" />
+          </Key>
+          <Property Name="idCliente" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="apellidoPaterno" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="apellidoMaterno" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="edad" Type="int" Nullable="false" />
+          <Property Name="sexo" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="direccion" Type="varchar" MaxLength="120" Nullable="false" />
+          <Property Name="telefono" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="correo" Type="varchar" MaxLength="80" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Coche">
+          <Key>
+            <PropertyRef Name="idCoche" />
+          </Key>
+          <Property Name="idCoche" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="placa" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="marca" Type="varchar" MaxLength="80" Nullable="false" />
+          <Property Name="modelo" Type="varchar" MaxLength="80" Nullable="false" />
+          <Property Name="anio" Type="int" Nullable="false" />
+          <Property Name="color" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="clienteId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EstadoAuto">
+          <Key>
+            <PropertyRef Name="idEstadoAuto" />
+          </Key>
+          <Property Name="idEstadoAuto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="condicion" Type="varchar" MaxLength="120" Nullable="false" />
+          <Property Name="inventario" Type="varchar" MaxLength="120" Nullable="false" />
+          <Property Name="FechaEdo" Type="date" Nullable="false" />
+          <Property Name="cocheId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HojaServicio">
+          <Key>
+            <PropertyRef Name="idHojaServicio" />
+          </Key>
+          <Property Name="idHojaServicio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fecha" Type="date" Nullable="false" />
+          <Property Name="FormaPago" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Total" Type="float" Nullable="false" />
+          <Property Name="servicioId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Refaccion">
+          <Key>
+            <PropertyRef Name="idRefaccion" />
+          </Key>
+          <Property Name="idRefaccion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tipo" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="precio" Type="float" Nullable="false" />
+          <Property Name="servicioId" Type="int" />
+        </EntityType>
+        <EntityType Name="Servicio">
+          <Key>
+            <PropertyRef Name="idServicio" />
+          </Key>
+          <Property Name="idServicio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tipo" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="costo" Type="float" Nullable="false" />
+          <Property Name="fechaServicio" Type="date" Nullable="false" />
+          <Property Name="horaServicio" Type="time" Precision="7" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__AutoServi__coche__30F848ED">
+          <End Role="Coche" Type="Self.Coche" Multiplicity="1" />
+          <End Role="AutoServicio" Type="Self.AutoServicio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Coche">
+              <PropertyRef Name="idCoche" />
+            </Principal>
+            <Dependent Role="AutoServicio">
+              <PropertyRef Name="cocheId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__AutoServi__servi__300424B4">
+          <End Role="Servicio" Type="Self.Servicio" Multiplicity="1" />
+          <End Role="AutoServicio" Type="Self.AutoServicio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Servicio">
+              <PropertyRef Name="idServicio" />
+            </Principal>
+            <Dependent Role="AutoServicio">
+              <PropertyRef Name="servicioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Coche__clienteId__2B3F6F97">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
+          <End Role="Coche" Type="Self.Coche" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="idCliente" />
+            </Principal>
+            <Dependent Role="Coche">
+              <PropertyRef Name="clienteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EstadoAut__coche__2E1BDC42">
+          <End Role="Coche" Type="Self.Coche" Multiplicity="1" />
+          <End Role="EstadoAuto" Type="Self.EstadoAuto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Coche">
+              <PropertyRef Name="idCoche" />
+            </Principal>
+            <Dependent Role="EstadoAuto">
+              <PropertyRef Name="cocheId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__HojaServi__servi__33D4B598">
+          <End Role="Servicio" Type="Self.Servicio" Multiplicity="1" />
+          <End Role="HojaServicio" Type="Self.HojaServicio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Servicio">
+              <PropertyRef Name="idServicio" />
+            </Principal>
+            <Dependent Role="HojaServicio">
+              <PropertyRef Name="servicioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Refaccion__servi__286302EC">
+          <End Role="Servicio" Type="Self.Servicio" Multiplicity="0..1" />
+          <End Role="Refaccion" Type="Self.Refaccion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Servicio">
+              <PropertyRef Name="idServicio" />
+            </Principal>
+            <Dependent Role="Refaccion">
+              <PropertyRef Name="servicioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TallerModelStoreContainer">
+          <EntitySet Name="Cliente" EntityType="Self.Cliente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Coche" EntityType="Self.Coche" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EstadoAuto" EntityType="Self.EstadoAuto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HojaServicio" EntityType="Self.HojaServicio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Refaccion" EntityType="Self.Refaccion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Servicio" EntityType="Self.Servicio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AutoServicio" EntityType="Self.AutoServicio" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [AutoServicio].[servicioId] AS [servicioId], 
+    [AutoServicio].[cocheId] AS [cocheId]
+    FROM [dbo].[AutoServicio] AS [AutoServicio]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__AutoServi__coche__30F848ED" Association="Self.FK__AutoServi__coche__30F848ED">
+            <End Role="Coche" EntitySet="Coche" />
+            <End Role="AutoServicio" EntitySet="AutoServicio" />
+          </AssociationSet>
+          <AssociationSet Name="FK__AutoServi__servi__300424B4" Association="Self.FK__AutoServi__servi__300424B4">
+            <End Role="Servicio" EntitySet="Servicio" />
+            <End Role="AutoServicio" EntitySet="AutoServicio" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Coche__clienteId__2B3F6F97" Association="Self.FK__Coche__clienteId__2B3F6F97">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Coche" EntitySet="Coche" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EstadoAut__coche__2E1BDC42" Association="Self.FK__EstadoAut__coche__2E1BDC42">
+            <End Role="Coche" EntitySet="Coche" />
+            <End Role="EstadoAuto" EntitySet="EstadoAuto" />
+          </AssociationSet>
+          <AssociationSet Name="FK__HojaServi__servi__33D4B598" Association="Self.FK__HojaServi__servi__33D4B598">
+            <End Role="Servicio" EntitySet="Servicio" />
+            <End Role="HojaServicio" EntitySet="HojaServicio" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Refaccion__servi__286302EC" Association="Self.FK__Refaccion__servi__286302EC">
+            <End Role="Servicio" EntitySet="Servicio" />
+            <End Role="Refaccion" EntitySet="Refaccion" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TallerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Cliente">
+          <Key>
+            <PropertyRef Name="idCliente" />
+          </Key>
+          <Property Name="idCliente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="apellidoPaterno" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="apellidoMaterno" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="edad" Type="Int32" Nullable="false" />
+          <Property Name="sexo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="direccion" Type="String" MaxLength="120" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="telefono" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="correo" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Coche" Relationship="Self.FK__Coche__clienteId__2B3F6F97" FromRole="Cliente" ToRole="Coche" />
+        </EntityType>
+        <EntityType Name="Coche">
+          <Key>
+            <PropertyRef Name="idCoche" />
+          </Key>
+          <Property Name="idCoche" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="placa" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="marca" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="modelo" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="anio" Type="Int32" Nullable="false" />
+          <Property Name="color" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="clienteId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Cliente" Relationship="Self.FK__Coche__clienteId__2B3F6F97" FromRole="Coche" ToRole="Cliente" />
+          <NavigationProperty Name="EstadoAuto" Relationship="Self.FK__EstadoAut__coche__2E1BDC42" FromRole="Coche" ToRole="EstadoAuto" />
+          <NavigationProperty Name="Servicio" Relationship="Self.AutoServicio" FromRole="Coche" ToRole="Servicio" />
+        </EntityType>
+        <EntityType Name="EstadoAuto">
+          <Key>
+            <PropertyRef Name="idEstadoAuto" />
+          </Key>
+          <Property Name="idEstadoAuto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="condicion" Type="String" MaxLength="120" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="inventario" Type="String" MaxLength="120" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FechaEdo" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="cocheId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Coche" Relationship="Self.FK__EstadoAut__coche__2E1BDC42" FromRole="EstadoAuto" ToRole="Coche" />
+        </EntityType>
+        <EntityType Name="HojaServicio">
+          <Key>
+            <PropertyRef Name="idHojaServicio" />
+          </Key>
+          <Property Name="idHojaServicio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FormaPago" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Total" Type="Double" Nullable="false" />
+          <Property Name="servicioId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Servicio" Relationship="Self.FK__HojaServi__servi__33D4B598" FromRole="HojaServicio" ToRole="Servicio" />
+        </EntityType>
+        <EntityType Name="Refaccion">
+          <Key>
+            <PropertyRef Name="idRefaccion" />
+          </Key>
+          <Property Name="idRefaccion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tipo" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="precio" Type="Double" Nullable="false" />
+          <Property Name="servicioId" Type="Int32" />
+          <NavigationProperty Name="Servicio" Relationship="Self.FK__Refaccion__servi__286302EC" FromRole="Refaccion" ToRole="Servicio" />
+        </EntityType>
+        <EntityType Name="Servicio">
+          <Key>
+            <PropertyRef Name="idServicio" />
+          </Key>
+          <Property Name="idServicio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tipo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="costo" Type="Double" Nullable="false" />
+          <Property Name="fechaServicio" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="horaServicio" Type="Time" Nullable="false" Precision="7" />
+          <NavigationProperty Name="HojaServicio" Relationship="Self.FK__HojaServi__servi__33D4B598" FromRole="Servicio" ToRole="HojaServicio" />
+          <NavigationProperty Name="Refaccion" Relationship="Self.FK__Refaccion__servi__286302EC" FromRole="Servicio" ToRole="Refaccion" />
+          <NavigationProperty Name="Coche" Relationship="Self.AutoServicio" FromRole="Servicio" ToRole="Coche" />
+        </EntityType>
+        <Association Name="FK__Coche__clienteId__2B3F6F97">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
+          <End Role="Coche" Type="Self.Coche" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="idCliente" />
+            </Principal>
+            <Dependent Role="Coche">
+              <PropertyRef Name="clienteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EstadoAut__coche__2E1BDC42">
+          <End Role="Coche" Type="Self.Coche" Multiplicity="1" />
+          <End Role="EstadoAuto" Type="Self.EstadoAuto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Coche">
+              <PropertyRef Name="idCoche" />
+            </Principal>
+            <Dependent Role="EstadoAuto">
+              <PropertyRef Name="cocheId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__HojaServi__servi__33D4B598">
+          <End Role="Servicio" Type="Self.Servicio" Multiplicity="1" />
+          <End Role="HojaServicio" Type="Self.HojaServicio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Servicio">
+              <PropertyRef Name="idServicio" />
+            </Principal>
+            <Dependent Role="HojaServicio">
+              <PropertyRef Name="servicioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Refaccion__servi__286302EC">
+          <End Role="Servicio" Type="Self.Servicio" Multiplicity="0..1" />
+          <End Role="Refaccion" Type="Self.Refaccion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Servicio">
+              <PropertyRef Name="idServicio" />
+            </Principal>
+            <Dependent Role="Refaccion">
+              <PropertyRef Name="servicioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AutoServicio">
+          <End Role="Coche" Type="Self.Coche" Multiplicity="*" />
+          <End Role="Servicio" Type="Self.Servicio" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="TallerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cliente" EntityType="Self.Cliente" />
+          <EntitySet Name="Coche" EntityType="Self.Coche" />
+          <EntitySet Name="EstadoAuto" EntityType="Self.EstadoAuto" />
+          <EntitySet Name="HojaServicio" EntityType="Self.HojaServicio" />
+          <EntitySet Name="Refaccion" EntityType="Self.Refaccion" />
+          <EntitySet Name="Servicio" EntityType="Self.Servicio" />
+          <AssociationSet Name="FK__Coche__clienteId__2B3F6F97" Association="Self.FK__Coche__clienteId__2B3F6F97">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Coche" EntitySet="Coche" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EstadoAut__coche__2E1BDC42" Association="Self.FK__EstadoAut__coche__2E1BDC42">
+            <End Role="Coche" EntitySet="Coche" />
+            <End Role="EstadoAuto" EntitySet="EstadoAuto" />
+          </AssociationSet>
+          <AssociationSet Name="FK__HojaServi__servi__33D4B598" Association="Self.FK__HojaServi__servi__33D4B598">
+            <End Role="Servicio" EntitySet="Servicio" />
+            <End Role="HojaServicio" EntitySet="HojaServicio" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Refaccion__servi__286302EC" Association="Self.FK__Refaccion__servi__286302EC">
+            <End Role="Servicio" EntitySet="Servicio" />
+            <End Role="Refaccion" EntitySet="Refaccion" />
+          </AssociationSet>
+          <AssociationSet Name="AutoServicio" Association="Self.AutoServicio">
+            <End Role="Coche" EntitySet="Coche" />
+            <End Role="Servicio" EntitySet="Servicio" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TallerModelStoreContainer" CdmEntityContainer="TallerEntities">
+          <EntitySetMapping Name="Cliente">
+            <EntityTypeMapping TypeName="TallerModel.Cliente">
+              <MappingFragment StoreEntitySet="Cliente">
+                <ScalarProperty Name="idCliente" ColumnName="idCliente" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="apellidoPaterno" ColumnName="apellidoPaterno" />
+                <ScalarProperty Name="apellidoMaterno" ColumnName="apellidoMaterno" />
+                <ScalarProperty Name="edad" ColumnName="edad" />
+                <ScalarProperty Name="sexo" ColumnName="sexo" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="telefono" ColumnName="telefono" />
+                <ScalarProperty Name="correo" ColumnName="correo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Coche">
+            <EntityTypeMapping TypeName="TallerModel.Coche">
+              <MappingFragment StoreEntitySet="Coche">
+                <ScalarProperty Name="idCoche" ColumnName="idCoche" />
+                <ScalarProperty Name="placa" ColumnName="placa" />
+                <ScalarProperty Name="marca" ColumnName="marca" />
+                <ScalarProperty Name="modelo" ColumnName="modelo" />
+                <ScalarProperty Name="anio" ColumnName="anio" />
+                <ScalarProperty Name="color" ColumnName="color" />
+                <ScalarProperty Name="clienteId" ColumnName="clienteId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EstadoAuto">
+            <EntityTypeMapping TypeName="TallerModel.EstadoAuto">
+              <MappingFragment StoreEntitySet="EstadoAuto">
+                <ScalarProperty Name="idEstadoAuto" ColumnName="idEstadoAuto" />
+                <ScalarProperty Name="condicion" ColumnName="condicion" />
+                <ScalarProperty Name="inventario" ColumnName="inventario" />
+                <ScalarProperty Name="FechaEdo" ColumnName="FechaEdo" />
+                <ScalarProperty Name="cocheId" ColumnName="cocheId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HojaServicio">
+            <EntityTypeMapping TypeName="TallerModel.HojaServicio">
+              <MappingFragment StoreEntitySet="HojaServicio">
+                <ScalarProperty Name="idHojaServicio" ColumnName="idHojaServicio" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="FormaPago" ColumnName="FormaPago" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="servicioId" ColumnName="servicioId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Refaccion">
+            <EntityTypeMapping TypeName="TallerModel.Refaccion">
+              <MappingFragment StoreEntitySet="Refaccion">
+                <ScalarProperty Name="idRefaccion" ColumnName="idRefaccion" />
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+                <ScalarProperty Name="precio" ColumnName="precio" />
+                <ScalarProperty Name="servicioId" ColumnName="servicioId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Servicio">
+            <EntityTypeMapping TypeName="TallerModel.Servicio">
+              <MappingFragment StoreEntitySet="Servicio">
+                <ScalarProperty Name="idServicio" ColumnName="idServicio" />
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="costo" ColumnName="costo" />
+                <ScalarProperty Name="fechaServicio" ColumnName="fechaServicio" />
+                <ScalarProperty Name="horaServicio" ColumnName="horaServicio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="AutoServicio" TypeName="TallerModel.AutoServicio" StoreEntitySet="AutoServicio">
+            <EndProperty Name="Coche">
+              <ScalarProperty Name="idCoche" ColumnName="cocheId" />
+            </EndProperty>
+            <EndProperty Name="Servicio">
+              <ScalarProperty Name="idServicio" ColumnName="servicioId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
